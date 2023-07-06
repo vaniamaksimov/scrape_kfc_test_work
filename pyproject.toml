@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "scrape-kfc-test-work"
+version = "0.1.0"
+description = ""
+authors = ["vaniamaksimov <vaniamaksimov@gmail.com>"]
+readme = "README.md"
+packages = [{include = "scrape_kfc_test_work"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
