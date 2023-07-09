@@ -5,11 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": ["parse"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: launch manage.py parse",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
-            "args": ["parse"],
+            "args": [
+                "parse"
+            ],
             "console": "integratedTerminal",
             "justMyCode": true
         }

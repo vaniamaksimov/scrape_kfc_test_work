@@ -1,6 +1,6 @@
 from datetime import time
 
-from pydantic import UUID4, BaseModel, field_validator
+from pydantic import BaseModel, field_validator
 
 from src.utils.app_types import LenientList, OpenStatus, TimeZone, latitude, longitude
 from src.utils.validators import time_validator
@@ -50,7 +50,7 @@ class TitleJson(BaseModel):
 
 class StoreJson(BaseModel):
     storeId: int
-    kfcCityId: UUID4
+    kfcCityId: str
     title: TitleJson
     contacts: ContactsJson
     openingHours: OpeningHoursJson

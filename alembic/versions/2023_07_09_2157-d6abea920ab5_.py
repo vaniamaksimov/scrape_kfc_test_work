@@ -1,15 +1,15 @@
 """empty message
 
-Revision ID: 006b8363965d
+Revision ID: d6abea920ab5
 Revises: 
-Create Date: 2023-07-08 14:38:56.300715
+Create Date: 2023-07-09 21:57:00.926008
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '006b8363965d'
+revision = 'd6abea920ab5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -66,11 +66,10 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.Column(
-            'status', sa.Enum('OPEN', 'CLOSE', name='openstatus'), nullable=False
+            'status', sa.Enum('OPEN', 'CLOSED', name='openstatus'), nullable=False
         ),
         sa.ForeignKeyConstraint(['city_id'], ['city.id'], name='fk_store_city'),
         sa.PrimaryKeyConstraint('id'),
-        sa.UniqueConstraint('name'),
     )
     op.create_table(
         'storefeature',
