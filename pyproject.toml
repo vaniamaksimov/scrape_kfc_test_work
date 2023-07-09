@@ -8,8 +8,74 @@ packages = [{include = "scrape_kfc_test_work"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pydantic = {extras = ["dotenv"], version = "^2.0.2"}
+pydantic-settings = "^2.0.1"
+sqlalchemy = "^2.0.18"
+dateparser = "^1.1.8"
+alembic = "^1.11.1"
+aiosqlite = "^0.19.0"
+requests = "^2.31.0"
 
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.277"
+black = "^23.3.0"
+tqdm = "^4.65.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests",]
+filterwarnings = ["ignore:DeprecationWarning",]
+norecursedirs = [".venv", "alembic",]
+python_files = ["test_*.py",]
+python_functions = ["test_*",]
+pythonpath = [".", "src",]
+addopts = ["-vv", "-p", "no:cacheprovider", "--tb=long"]
+asyncio_mode = "auto"
+disable_test_id_escaping_and_forfeit_all_rights_to_community_support = "True"
+
+[tool.ruff]
+fix = true
+src = ["src", "tests"]
+select = ["E", "F", "I"]
+ignore = []
+fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
+unfixable = []
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    ".vscode",
+]
+per-file-ignores = {}
+line-length = 88
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+target-version = "py310"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.black]
+line-length = 88
+skip-string-normalization = true
