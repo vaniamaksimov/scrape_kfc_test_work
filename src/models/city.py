@@ -12,9 +12,7 @@ if TYPE_CHECKING:
 
 class City(Base):
     id: Mapped[str] = mapped_column(Uuid(as_uuid=False), primary_key=True)
-    name: Mapped[str] = mapped_column(
-        String(settings.app.max_string_length), unique=False
-    )
+    name: Mapped[str] = mapped_column(String(settings.app.max_string_length), unique=False)
     stores: Mapped[list['Store']] = relationship(back_populates='city')
 
     def __init__(self, id: str, name: str, stores: list['Store'] = None):

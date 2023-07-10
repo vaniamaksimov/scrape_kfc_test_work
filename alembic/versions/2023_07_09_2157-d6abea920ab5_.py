@@ -65,9 +65,7 @@ def upgrade() -> None:
             ),
             nullable=False,
         ),
-        sa.Column(
-            'status', sa.Enum('OPEN', 'CLOSED', name='openstatus'), nullable=False
-        ),
+        sa.Column('status', sa.Enum('OPEN', 'CLOSED', name='openstatus'), nullable=False),
         sa.ForeignKeyConstraint(['city_id'], ['city.id'], name='fk_store_city'),
         sa.PrimaryKeyConstraint('id'),
     )

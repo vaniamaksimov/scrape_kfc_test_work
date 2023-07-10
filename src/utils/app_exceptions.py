@@ -1,3 +1,7 @@
+class ResponseError(Exception):
+    ...
+
+
 class BaseCrudError(Exception):
     message: str = ''
 

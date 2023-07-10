@@ -12,7 +12,7 @@ from src.schemas.feature import FeatureCreate
 from src.schemas.kfc_json import KfcJson, ResultJson
 from src.schemas.store import StoreCreate, StoreUpdate
 from src.schemas.store_feature import StoreFeatureCreate
-from src.utils import exceptions
+from src.utils import app_exceptions
 
 url = 'https://api.kfc.digital/api/store/v2/store.get_restaurants?showClosed=true'
 headers = {
@@ -28,9 +28,8 @@ def _get_response() -> requests.Response:
     response = requests.get(url=url, headers=headers)
     response.encoding = 'utf-8'
     if response.status_code != HTTPStatus.OK:
-        raise exceptions.ResponseError(
-            'Ну удалось получить ответ от '
-            f'сервера: статус ответа {response.status_code}'
+        raise app_exceptions.ResponseError(
+            'Ну удалось получить ответ от ' f'сервера: статус ответа {response.status_code}'
         )
     return response
 
@@ -73,12 +72,8 @@ async def _add_to_db(data: ResultJson) -> None:
                     name=data.storePublic.title.ru,
                     address=data.storePublic.contacts.streetAddress.ru,
                     city_id=city.id,
-                    longitude=data.storePublic.contacts.coordinates.geometry.coordinates[
-                        0
-                    ],
-                    latitude=data.storePublic.contacts.coordinates.geometry.coordinates[
-                        1
-                    ],
+                    longitude=data.storePublic.contacts.coordinates.geometry.coordinates[0],
+                    latitude=data.storePublic.contacts.coordinates.geometry.coordinates[1],
                     start_time_local=data.storePublic.openingHours.regular.startTimeLocal,
                     end_time_local=data.storePublic.openingHours.regular.endTimeLocal,
                     time_zone=data.storePublic.timeZone,
@@ -93,12 +88,8 @@ async def _add_to_db(data: ResultJson) -> None:
                     name=data.storePublic.title.ru,
                     address=data.storePublic.contacts.streetAddress.ru,
                     city_id=city.id,
-                    longitude=data.storePublic.contacts.coordinates.geometry.coordinates[
-                        0
-                    ],
-                    latitude=data.storePublic.contacts.coordinates.geometry.coordinates[
-                        1
-                    ],
+                    longitude=data.storePublic.contacts.coordinates.geometry.coordinates[0],
+                    latitude=data.storePublic.contacts.coordinates.geometry.coordinates[1],
                     start_time_local=data.storePublic.openingHours.regular.startTimeLocal,
                     end_time_local=data.storePublic.openingHours.regular.endTimeLocal,
                     time_zone=data.storePublic.timeZone,

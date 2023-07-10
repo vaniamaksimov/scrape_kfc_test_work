@@ -20,13 +20,9 @@ class StoreFeature(Base):
 
 class Feature(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(
-        String(settings.app.max_string_length), unique=True
-    )
+    name: Mapped[str] = mapped_column(String(settings.app.max_string_length), unique=True)
 
-    feature_stores: Mapped[list['StoreFeature']] = relationship(
-        back_populates='feature'
-    )
+    feature_stores: Mapped[list['StoreFeature']] = relationship(back_populates='feature')
 
     def __init__(self, name: str, feature_stores: list['StoreFeature'] = None):
         self.name = name

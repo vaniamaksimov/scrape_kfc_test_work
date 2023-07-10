@@ -17,9 +17,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         database_object = await session.execute(statement)
         return database_object.scalars().first()
 
-    async def create(
-        self, session: AsyncSession, schema: CreateSchemaType
-    ) -> ModelType:
+    async def create(self, session: AsyncSession, schema: CreateSchemaType) -> ModelType:
         database_object = self.model(**schema.model_dump())
         session.add(database_object)
         await session.commit()
@@ -39,9 +37,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         update_data = schema.dict(exclude_unset=True)
         for field_data_name in object_data:
             if field_data_name in update_data:
-                setattr(
-                    database_object, field_data_name, update_data.get(field_data_name)
-                )
+                setattr(database_object, field_data_name, update_data.get(field_data_name))
         session.add(database_object)
         await session.commit()
         await session.flush(database_object)
@@ -75,13 +71,9 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 case Operator.LESSEQUAL:
                     stmt = stmt.where(getattr(self.model, collumn_name) <= value)
                 case Operator.LIKE:
-                    stmt = stmt.where(
-                        getattr(self.model, collumn_name).like(f'%{value}%')
-                    )
+                    stmt = stmt.where(getattr(self.model, collumn_name).like(f'%{value}%'))
                 case Operator.ILIKE:
-                    stmt = stmt.where(
-                        getattr(self.model, collumn_name).ilike(f'%{value}%')
-                    )
+                    stmt = stmt.where(getattr(self.model, collumn_name).ilike(f'%{value}%'))
                 case Operator.ISNULL:
                     if value:
                         stmt = stmt.where(getattr(self.model, collumn_name) is None)
