@@ -100,9 +100,3 @@ class ModeToFunction:
         from src.core.parse import parse
 
         return parse
-
-    @classmethod
-    def request(cls):
-        from src.core.request import request
-
-        return request
