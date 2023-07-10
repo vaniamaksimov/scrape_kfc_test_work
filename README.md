@@ -52,3 +52,21 @@ Jan'18 – Nov'19 FOR OMD final.xlsx :
 знаем её местоположение)
 
 https://api.kfc.digital/api/store/v2/store.get_restaurants?showClosed=true
+
+
+SELECT
+  s.name,
+  s.address,
+  s.longitude,
+  s.latitude
+FROM
+  store s
+  JOIN storefeature sf ON s.id = sf.store_id
+  JOIN feature f ON sf.feature_id = f.id
+  JOIN city c ON s.city_id = c.id
+WHERE
+  c.name = 'Новосибирск'
+  AND s.status = 'OPEN'
+  AND s.start_time_local < '08:45'
+  AND s.end_time_local  > '08:45'
+  AND f.name = 'breakfast';

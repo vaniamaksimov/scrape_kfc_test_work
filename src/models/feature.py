@@ -28,6 +28,6 @@ class Feature(Base):
         back_populates='feature'
     )
 
-    def __init__(self, name: str, feature_stores: list['StoreFeature']):
+    def __init__(self, name: str, feature_stores: list['StoreFeature'] = None):
         self.name = name
         feature_stores = feature_stores or []

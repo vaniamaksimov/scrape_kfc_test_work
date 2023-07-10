@@ -20,7 +20,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def create(
         self, session: AsyncSession, schema: CreateSchemaType
     ) -> ModelType:
-        database_object = self.model(**schema.dict())
+        database_object = self.model(**schema.model_dump())
         session.add(database_object)
         await session.commit()
         await session.flush(database_object)

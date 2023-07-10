@@ -2,7 +2,7 @@ import asyncio
 from http import HTTPStatus
 
 import requests
-from sqlalchemy.ext.asyncio import AsyncSession
+from tqdm import tqdm
 
 from src.core.session import AsyncSessionLocal
 from src.crud import city_crud, feature_crud, store_crud, store_feature_crud
@@ -45,11 +45,14 @@ def _map_data_to_pydantic_model(data: dict) -> KfcJson:
 
 async def _add_to_db(data: ResultJson) -> None:
     async with AsyncSessionLocal() as session:
-        session: AsyncSession
         city = await city_crud.get(session, id=data.storePublic.kfcCityId)
         if not city:
             city = await city_crud.create(
-                session, CityCreate(name=data.storePublic.contacts.city.ru)
+                session,
+                CityCreate(
+                    id=data.storePublic.kfcCityId,
+                    name=data.storePublic.contacts.city.ru,
+                ),
             )
 
         store_features: list[Feature] = []
@@ -68,7 +71,7 @@ async def _add_to_db(data: ResultJson) -> None:
                 StoreCreate(
                     id=data.storePublic.storeId,
                     name=data.storePublic.title.ru,
-                    address=data.storePublic.contacts.streetAddress,
+                    address=data.storePublic.contacts.streetAddress.ru,
                     city_id=city.id,
                     longitude=data.storePublic.contacts.coordinates.geometry.coordinates[
                         0
@@ -88,7 +91,7 @@ async def _add_to_db(data: ResultJson) -> None:
                 store,
                 StoreUpdate(
                     name=data.storePublic.title.ru,
-                    address=data.storePublic.contacts.streetAddress,
+                    address=data.storePublic.contacts.streetAddress.ru,
                     city_id=city.id,
                     longitude=data.storePublic.contacts.coordinates.geometry.coordinates[
                         0
@@ -110,13 +113,9 @@ async def _add_to_db(data: ResultJson) -> None:
             )
 
 
-async def _save_to_database(model: KfcJson) -> None:
-    coros = [_add_to_db(data) for data in model.searchResults]
-    await asyncio.gather(*coros)
-
-
 def parse():
     response = _get_response()
     data = _get_data(response)
     model = _map_data_to_pydantic_model(data)
-    asyncio.run(_save_to_database(model))
+    for data in tqdm(model.searchResults):
+        asyncio.run(_add_to_db(data))

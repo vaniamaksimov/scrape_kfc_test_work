@@ -7,8 +7,6 @@ from pydantic_core import MultiHostUrl, ValidationError
 from pydantic_core import core_schema as cs
 
 from src.core.database import Base
-from src.core.parse import parse
-from src.core.request import request
 
 SqliteURL = Annotated[
     MultiHostUrl,
@@ -28,30 +26,30 @@ longitude: TypeAlias = float
 latitude: TypeAlias = float
 
 
-class TimeZone(StrEnum):
-    KALININGRAD = 'Europe/Kaliningrad'  # +2
-    MOSCOW = 'Europe/Moscow'  # +3
-    KIROV = 'Europe/Kirov'  # +3
-    SAMARA = 'Europe/Samara'  # +4
-    ULYANOVSK = 'Europe/Ulyanovsk'  # +4
-    SARATOV = 'Europe/Saratov'  # +4
-    ASTRAKHAN = 'Europe/Astrakhan'  # + 4
-    YEKATERINBURG = 'Asia/Yekaterinburg'  # +5
-    OMSK = 'Asia/Omsk'  # +6
-    KRASNOYARSK = 'Asia/Krasnoyarsk'  # +7
-    NOVOSIBIRSK = 'Asia/Novosibirsk'  # +7
-    TOMSK = 'Asia/Tomsk'  # +7
-    NOVOKUZNETSK = 'Asia/Novokuznetsk'  # +7
-    BARNAUL = 'Asia/Barnaul'  # +7
-    IRKUTSK = 'Asia/Irkutsk'  # +8
-    YAKUTSK = 'Asia/Yakutsk'  # +9
-    CHITA = 'Asia/Chita'  # +9
-    VLADIVOSTOK = 'Asia/Vladivostok'  # +10
-
-
 class OpenStatus(StrEnum):
     OPEN = 'Open'
-    CLOSE = 'Closed'
+    CLOSED = 'Closed'
+
+
+class TimeZone(StrEnum):
+    KALININGRAD = 'Europe/Kaliningrad'
+    MOSCOW = 'Europe/Moscow'
+    KIROV = 'Europe/Kirov'
+    SAMARA = 'Europe/Samara'
+    ULYANOVSK = 'Europe/Ulyanovsk'
+    SARATOV = 'Europe/Saratov'
+    ASTRAKHAN = 'Europe/Astrakhan'
+    YEKATERINBURG = 'Asia/Yekaterinburg'
+    OMSK = 'Asia/Omsk'
+    KRASNOYARSK = 'Asia/Krasnoyarsk'
+    NOVOSIBIRSK = 'Asia/Novosibirsk'
+    TOMSK = 'Asia/Tomsk'
+    NOVOKUZNETSK = 'Asia/Novokuznetsk'
+    BARNAUL = 'Asia/Barnaul'
+    IRKUTSK = 'Asia/Irkutsk'
+    YAKUTSK = 'Asia/Yakutsk'
+    CHITA = 'Asia/Chita'
+    VLADIVOSTOK = 'Asia/Vladivostok'
 
 
 _ERROR = object()
@@ -97,5 +95,8 @@ LenientList = Annotated[list[Annotated[T, ErorrItemsMarker()]], ListErrorFilter(
 
 @dataclass
 class ModeToFunction:
-    parse: Callable[[], None] = parse
-    request: Callable[[], None] = request
+    @classmethod
+    def parse(cls):
+        from src.core.parse import parse
+
+        return parse

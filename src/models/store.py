@@ -15,9 +15,7 @@ if TYPE_CHECKING:
 
 class Store(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(
-        String(settings.app.max_string_length), unique=True
-    )
+    name: Mapped[str] = mapped_column(String(settings.app.max_string_length))
     address: Mapped[str] = mapped_column(String(settings.app.max_string_length))
 
     city_id: Mapped[str] = mapped_column(

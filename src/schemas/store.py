@@ -1,6 +1,6 @@
 from datetime import time
 
-from pydantic import UUID4, BaseModel, ConfigDict, Extra
+from pydantic import BaseModel, ConfigDict, Extra
 
 from src.utils.app_types import OpenStatus, TimeZone
 
@@ -13,7 +13,7 @@ class StoreCreate(StoreBase):
     id: int
     name: str
     address: str
-    city_id: UUID4
+    city_id: str
     longitude: float
     latitude: float
     start_time_local: time
@@ -24,8 +24,8 @@ class StoreCreate(StoreBase):
 
 class StoreUpdate(StoreBase):
     name: str | None
-    adress: str | None
-    city_id: UUID4 | None
+    address: str | None
+    city_id: str | None
     longitude: float | None
     latitude: float | None
     start_time_local: time | None
@@ -38,7 +38,7 @@ class StoreDB(BaseModel):
     id: int
     name: str
     adress: str
-    city_id: UUID4
+    city_id: str
     longitude: float
     latitude: float
     start_time_local: time

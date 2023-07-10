@@ -5,7 +5,8 @@ from src.utils.app_types import ModeToFunction
 def main():
     args = settings.parser.parse_args()
     parser_mode = args.usage
-    getattr(ModeToFunction, parser_mode)()
+    func = getattr(ModeToFunction, parser_mode)()
+    func()
 
 
 if __name__ == '__main__':

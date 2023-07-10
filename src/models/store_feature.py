@@ -16,3 +16,7 @@ class StoreFeature(Base):
 
     store: Mapped['Store'] = relationship(back_populates='store_features')
     feature: Mapped['Feature'] = relationship(back_populates='feature_stores')
+
+    def __init__(self, store_id: int, feature_id: int):
+        self.store_id = store_id
+        self.feature_id = feature_id

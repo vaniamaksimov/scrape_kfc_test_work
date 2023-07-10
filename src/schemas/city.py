@@ -1,4 +1,4 @@
-from pydantic import UUID4, BaseModel, ConfigDict, Extra
+from pydantic import BaseModel, ConfigDict, Extra
 
 
 class CityBase(BaseModel):
@@ -6,6 +6,7 @@ class CityBase(BaseModel):
 
 
 class CityCreate(CityBase):
+    id: str
     name: str
 
 
@@ -14,7 +15,7 @@ class CityUpdate(CityBase):
 
 
 class CityDB(BaseModel):
-    id: UUID4
+    id: str
     name: str
 
     model_config = ConfigDict(from_attributes=True)
